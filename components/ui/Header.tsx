@@ -110,19 +110,6 @@ const Header: React.FC<HeaderProps> = ({
                     `}>
                         <HiTrendingUp className={"text-white"} size={24}/>
                     </button>
-                    <button
-                        className={`
-                        rounded-full
-                        p-2
-                        bg-neutral-900
-                        flex
-                        items-center
-                        justify-center
-                        hover:opacity-75
-                        transition
-                    `}>
-                        <HiOutlineHeart className={"text-white"} size={24}/>
-                    </button>
                 </div>
                 <div className="
                     flex

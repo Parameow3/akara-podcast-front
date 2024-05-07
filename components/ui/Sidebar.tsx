@@ -33,12 +33,6 @@ const Sidebar: React.FC<SidebarProps> = ({
             label: "Trending",
             active: pathname === '/trending',
             href: "/trending",
-        },
-        {
-            icon: HiOutlineHeart,
-            label: "Favorite",
-            active: pathname === '/favorite',
-            href: "/favorite",
         }
     ], [pathname]);
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Figtree } from "next/font/google";
 import Sidebar from "@/components/ui/Sidebar";
+import SupabaseProvider from '@/providers/SupabaseProvider'
 
 const font = Figtree({ subsets: ["latin"] })
 
@@ -18,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`p-2 ${font.className}`}>
-      <Sidebar>
-          {children}
-      </Sidebar>
+      <SupabaseProvider>
+          <Sidebar>
+              {children}
+          </Sidebar>
+      </SupabaseProvider>
       </body>
     </html>
   );
