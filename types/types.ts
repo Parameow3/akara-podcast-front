@@ -1,7 +1,6 @@
 import Stripe from 'stripe';
-import exp from "node:constants";
 
-export interface UserDetail {
+export interface UserDetails {
     id: string;
     first_name: string;
     last_name: string;
@@ -9,6 +8,15 @@ export interface UserDetail {
     avatar_url?: string;
     bulling_address?: Stripe.Address;
     payment_method?: Stripe.PaymentMethod[Stripe.PaymentMethod.Type];
+}
+
+export interface Product {
+    id: string;
+    active ?: boolean;
+    name ?: string;
+    description ?: string;
+    image ?: string;
+    metadata ?: Stripe.Metadata;
 }
 
 export interface Price {
@@ -19,6 +27,12 @@ export interface Price {
     unit_amount?: number;
     currency?: string;
     type?: Stripe.Price.Type;
+    interval ?: Stripe.Price.Recurring.Interval;
+    interval_count ?: number;
+    trial_period_days ?: number | null;
+    metadata ?: Stripe.Metadata;
+    products ?: Product;
+
 }
 
 export interface Subscription {
@@ -27,7 +41,7 @@ export interface Subscription {
     status?: Stripe.Subscription.Status;
     metadata?: Stripe.Metadata;
     price_id?: string;
-    quantity?: string;
+    quantity?: number;
     cancel_at_period_end?: boolean;
     created: string;
     current_period_start: string;
