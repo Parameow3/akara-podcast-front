@@ -44,8 +44,9 @@ const Modal: React.FC<ModalProps> = ({
             w-full
             md:w-[90vw]
             md:max-w-[450px]
-            transition-x-[-50%]
-            transition-y-[-50%]
+            translate-x-[-50%]
+            translate-y-[-50%]
+            rounded-md
             bg-neutral-800
             p-[25px]
             focus:outline-none
