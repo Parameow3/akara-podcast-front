@@ -3,9 +3,12 @@
 import {useRouter} from "next/navigation";
 import {twMerge} from "tailwind-merge";
 import {RxCaretLeft, RxCaretRight} from "react-icons/rx";
-import {HiHome, HiOutlineHeart, HiSearch, HiTrendingUp} from "react-icons/hi";
+import {HiHome, HiSearch, HiTrendingUp} from "react-icons/hi";
 import ReButton from "./ReButton";
 import useAuthModal from "@/hooks/useAuthModal";
+import {useSupabaseClient} from "@supabase/auth-helpers-react";
+import {useUser} from "@/hooks/useUser";
+import {FaUserAlt} from "react-icons/fa";
 
 interface HeaderProps {
     children: React.ReactNode;
@@ -20,8 +23,18 @@ const Header: React.FC<HeaderProps> = ({
     const authModal = useAuthModal();
     const router = useRouter();
 
-    const handleLogout = () => {
-        // Handle logout in the future
+    const supabaseClient = useSupabaseClient();
+    const { user} = useUser();
+
+    const handleLogout = async () => {
+        const {error} = await supabaseClient.auth.signOut();
+
+        // TODO: Reset any playing podcasts
+        router.refresh();
+
+        if (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -119,6 +132,19 @@ const Header: React.FC<HeaderProps> = ({
                     gap-x-4
                     justify-between
                     items-center">
+                    {user ? (
+                        <div className={"flex gap-x-4 items-center"}>
+                            <ReButton
+                                onClick={handleLogout}
+                                className={"bg-white px-6 py-2"}>
+                                Logout
+                            </ReButton>
+                            <ReButton onClick={() => router.push('/account')}
+                                      className={"bg-white"}>
+                                <FaUserAlt/>
+                            </ReButton>
+                        </div>
+                    ) : (
                     <>
                         <div>
                             <ReButton
@@ -135,7 +161,7 @@ const Header: React.FC<HeaderProps> = ({
                             </ReButton>
                         </div>
                     </>
-
+                        )}
                 </div>
             </div>
             {children}
