@@ -5,14 +5,18 @@ import {HiHome, HiOutlineHeart, HiSearch, HiTrendingUp} from "react-icons/hi";
 import Box from "./Box";
 import SidebarItem from "./SidebarItem";
 import Library from "./Library";
+import {Podcast} from "@/types/types";
 
 interface SidebarProps {
     children: React.ReactNode;
+    podcasts: Podcast[];
 }
 
-const Sidebar: React.FC<SidebarProps> = ({
-    children
-                                         }) => {
+const Sidebar: React.FC<SidebarProps> = (
+    {
+    children,
+    podcasts
+    }) => {
     const pathname = usePathname();
 
     const routes = useMemo(() => [
@@ -51,7 +55,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     </div>
                 </Box>
                 <Box className="overflow-y-auto h-full">
-                    <Library />
+                    <Library podcasts={podcasts}/>
                 </Box>
             </div>
             <main className="h-full flex-1 overflow-y-auto md:ms-2">

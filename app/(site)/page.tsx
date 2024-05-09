@@ -1,6 +1,13 @@
 import Header from "@/components/ui/Header";
 import ListItem from "@/components/ui/ListItem";
-export default function HomePage() {
+import getPodcast from "@/actions/getPodcast";
+import PageContent from "@/app/(site)/components/PageContent";
+
+
+export const revalidate = 0;
+export default async function HomePage() {
+  const podcasts = await getPodcast();
+
   return <div className="bg-neutral-900 rounded-lg h-full w-full overflow-hidden overflow-y-auto">
     <Header>
       <div className={"mb-2"}>
@@ -33,9 +40,7 @@ export default function HomePage() {
           Newest podcasts
         </h1>
       </div>
-      <div>
-        List of Podcasts!
-      </div>
+      <PageContent podcasts={podcasts}/>
     </div>
   </div>;
 }

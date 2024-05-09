@@ -6,6 +6,7 @@ import SupabaseProvider from '@/providers/SupabaseProvider'
 import UserProvider from "@/providers/UserProvider";
 import ModalProvider from "@/providers/ModalProvider";
 import ToasterProvider from "@/providers/ToasterProvider";
+import getPodcastByUserId from "@/actions/getPodcastByUserId";
 
 const font = Figtree({ subsets: ["latin"] })
 
@@ -14,11 +15,14 @@ export const metadata: Metadata = {
   description: "Discover your way to find your greatest fortune.",
 };
 
-export default function RootLayout({
+export const revalidate = 0;
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+    const userPodcasts = await getPodcastByUserId();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`p-2 ${font.className}`}>
@@ -26,7 +30,7 @@ export default function RootLayout({
       <SupabaseProvider>
           <UserProvider>
               <ModalProvider />
-              <Sidebar>
+              <Sidebar podcasts={userPodcasts}>
                   {children}
               </Sidebar>
           </UserProvider>

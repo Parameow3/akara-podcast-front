@@ -2,11 +2,35 @@
 
 import {TbPlaylist} from "react-icons/tb";
 import {AiOutlinePlus} from "react-icons/ai";
+import useAuthModal from "@/hooks/useAuthModal";
+import {useUser} from "@/hooks/useUser";
+import useUploadModal from "@/hooks/useUploadModal";
+import {Podcast} from "@/types/types";
+import MediaItem from "@/components/ui/MediaItem";
 
-const Library = () => {
+interface LibraryProps {
+    podcasts: Podcast[];
+}
+
+const Library: React.FC<LibraryProps> = (
+    {
+    podcasts
+    }
+) => {
+
+    const authModal = useAuthModal();
+    const uploadModal = useUploadModal();
+    const {user} = useUser();
+
 
     const onClick = () => {
-        // Handle upload later
+        if (!user) {
+            return authModal.onOpen();
+        }
+
+        // TODO: Check for subscription
+
+        return uploadModal.onOpen();
     };
 
     return (
@@ -23,7 +47,12 @@ const Library = () => {
             </div>
 
             <div className={"flex flex-col gap-y-2 mt-4 px-3"}>
-                List of Podcasts!
+                {podcasts.map((podcast) => (
+                    <MediaItem
+                        onClick={() => {}}
+                        key={podcast.id}
+                        data={podcast} />
+                ))}
             </div>
         </div>
     );

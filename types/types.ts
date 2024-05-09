@@ -1,5 +1,15 @@
 import Stripe from 'stripe';
 
+export interface Podcast {
+    id: string;
+    user_id: string;
+    author: string;
+    title: string;
+    description: string;
+    url: string;
+    img: string;
+}
+
 export interface UserDetails {
     id: string;
     first_name: string;
