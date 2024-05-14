@@ -4,7 +4,7 @@ import { blurhashToBase64 } from "blurhash-base64";
 import NextImage, { ImageProps } from "next/image";
 import { useEffect, useState } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/libs/utils";
 import fallbackImage from "@/public/images/default-fallback-image.jpg";
 
 type Props = Omit<ImageProps, "blurDataURL" | "placeholder"> & {

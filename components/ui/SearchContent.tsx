@@ -4,6 +4,7 @@
 import {Podcast} from "@/types/types";
 import MediaItem from "@/components/ui/MediaItem";
 import FavButton from "@/components/ui/FavButton";
+import useOnPlay from "@/hooks/useOnPlay";
 
 interface SearchContentProps {
     podcasts: Podcast[];
@@ -13,6 +14,8 @@ const SearchContent: React.FC<SearchContentProps> = (
     {
         podcasts
 }) => {
+
+    const onPlay = useOnPlay(podcasts);
 
     if (podcasts.length === 0) {
         return (
@@ -36,7 +39,7 @@ const SearchContent: React.FC<SearchContentProps> = (
                      className={"flex items-center gap-x-4 w-full"}>
                     <div className={"flex-1"} >
                         <MediaItem
-                         onClick={() => {}}
+                         onClick={(id: string) => onPlay(id)}
                          data={podcast}
                         />
                     </div>

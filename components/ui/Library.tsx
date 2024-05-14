@@ -7,6 +7,7 @@ import {useUser} from "@/hooks/useUser";
 import useUploadModal from "@/hooks/useUploadModal";
 import {Podcast} from "@/types/types";
 import MediaItem from "@/components/ui/MediaItem";
+import useOnPlay from "@/hooks/useOnPlay";
 
 interface LibraryProps {
     podcasts: Podcast[];
@@ -21,6 +22,8 @@ const Library: React.FC<LibraryProps> = (
     const authModal = useAuthModal();
     const uploadModal = useUploadModal();
     const {user} = useUser();
+
+    const onPlay = useOnPlay(podcasts);
 
 
     const onClick = () => {
@@ -49,7 +52,7 @@ const Library: React.FC<LibraryProps> = (
             <div className={"flex flex-col gap-y-2 mt-4 px-3"}>
                 {podcasts.map((podcast) => (
                     <MediaItem
-                        onClick={() => {}}
+                        onClick={(id: string) => onPlay(id)}
                         key={podcast.id}
                         data={podcast} />
                 ))}
