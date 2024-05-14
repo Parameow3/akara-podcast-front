@@ -27,7 +27,7 @@ export default async function HomePage() {
           <ListItem
             image={"https://picsum.photos/200"}
             name={"Favorite Podcasts"}
-            href={"liked"}
+            href={"/favorite"}
           />
 
         </div>
