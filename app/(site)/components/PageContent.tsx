@@ -2,6 +2,7 @@
 
 import {Podcast} from "@/types/types";
 import PodcastItem from "@/components/ui/PodcastItem";
+import useOnPlay from "@/hooks/useOnPlay";
 
 interface PageContentProps {
   podcasts: Podcast[];
@@ -12,6 +13,7 @@ const PageContent: React.FC<PageContentProps> = (
         podcasts
     }
 ) => {
+    const onPlay = useOnPlay(podcasts);
 
   if (podcasts.length === 0) {
       return (
@@ -38,7 +40,7 @@ const PageContent: React.FC<PageContentProps> = (
           {podcasts.map((podcast) => (
               <PodcastItem
                 key={podcast.id}
-                onClick={() => {}}
+                onClick={(id: string) => onPlay(id)}
                 data={podcast}
               />
           ))}

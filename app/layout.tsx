@@ -7,6 +7,7 @@ import UserProvider from "@/providers/UserProvider";
 import ModalProvider from "@/providers/ModalProvider";
 import ToasterProvider from "@/providers/ToasterProvider";
 import getPodcastByUserId from "@/actions/getPodcastByUserId";
+import Player from "@/components/ui/Player";
 
 const font = Figtree({ subsets: ["latin"] })
 
@@ -33,6 +34,7 @@ export default async function RootLayout({
               <Sidebar podcasts={userPodcasts}>
                   {children}
               </Sidebar>
+              <Player />
           </UserProvider>
       </SupabaseProvider>
       </body>
