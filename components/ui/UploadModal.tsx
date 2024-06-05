@@ -11,6 +11,8 @@ import {useUser} from "@/hooks/useUser";
 import uniqid from "uniqid";
 import {useSupabaseClient} from "@supabase/auth-helpers-react";
 import {useRouter} from "next/navigation";
+import Select from "react-select";
+import DescriptionBox from "@/components/ui/DescriptionBox";
 
 const UploadModal = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -22,19 +24,22 @@ const UploadModal = () => {
     const {
         reset,
         handleSubmit,
-        register
+        register,
+        setValue,
+        watch
     } = useForm<FieldValues>({
         defaultValues: {
             author: "",
             title: "",
             description: "",
+            category: [], // Change to an array for multi-select
             podcast: null,
             image: null,
         }
     });
 
     const onChange = (open: boolean) => {
-        if (!open){
+        if (!open) {
             reset();
             uploadModal.onClose();
         }
@@ -47,18 +52,16 @@ const UploadModal = () => {
             const imageFile = values.image?.[0];
             const podcastFile = values.podcast?.[0];
 
-            if(!imageFile || !podcastFile || !user){
+            if (!imageFile || !podcastFile || !user) {
                 toast.error("Missing fields");
+                setIsLoading(false);
                 return;
             }
 
             const uniqueID = uniqid();
 
             // Upload Podcast
-            const {
-                data: podcastData,
-                error: podcastError
-            } = await supabaseClient
+            const { data: podcastData, error: podcastError } = await supabaseClient
                 .storage
                 .from("podcasts")
                 .upload(`podcasts-${values.title}-${uniqueID}`, podcastFile, {
@@ -66,16 +69,13 @@ const UploadModal = () => {
                     upsert: false,
                 });
 
-            if (podcastError){
+            if (podcastError) {
                 setIsLoading(false);
                 return toast.error("Failed to upload podcast");
             }
 
             // Upload Image
-            const {
-                data: imageData,
-                error: imageError
-            } = await supabaseClient
+            const { data: imageData, error: imageError } = await supabaseClient
                 .storage
                 .from("images")
                 .upload(`images-${values.title}-${uniqueID}`, imageFile, {
@@ -83,26 +83,25 @@ const UploadModal = () => {
                     upsert: false,
                 });
 
-            if (imageError){
+            if (imageError) {
                 setIsLoading(false);
                 return toast.error("Failed to upload image");
             }
 
-            const {
-                error: supabaseError
-            } = await supabaseClient
+            const { error: supabaseError } = await supabaseClient
                 .from("podcasts")
                 .insert({
                     user_id: user.id,
                     title: values.title,
                     description: values.description,
                     author: values.author,
+                    category: values.category.map((cat: any) => cat.value), // Save selected categories
                     img: imageData.path,
                     url: podcastData.path
 
                 });
 
-            if (supabaseError){
+            if (supabaseError) {
                 setIsLoading(false);
                 return toast.error(supabaseError.message);
             }
@@ -113,11 +112,82 @@ const UploadModal = () => {
             reset();
             uploadModal.onClose();
         } catch (error) {
-            toast.error("Something went wrong")
+            toast.error("Something went wrong");
         } finally {
             setIsLoading(false);
         }
     }
+
+    const categories = [
+        { value: 'technology', label: 'Technology' },
+        { value: 'education', label: 'Education' },
+        { value: 'health', label: 'Health' },
+        { value: 'business', label: 'Business' },
+        // Add more categories as needed
+    ];
+
+
+    // Style for Select component
+    const customStyles = {
+        control: (provided: any) => ({
+            ...provided,
+            backgroundColor: '#404040',
+            borderColor: 'transparent',
+            fontSize: '0.9rem',
+            padding: '0.3rem',
+            borderRadius: '0.375rem',
+            ':hover': {
+                borderColor: '#3f3f3f',
+            }
+        }),
+        option: (provided: any, state: any) => ({
+            ...provided,
+            backgroundColor: state.isSelected ? '#3f3f3f' : '#525252',
+            color: state.isSelected ? '#d4d4d4' : '#a3a3a3',
+            ':hover': {
+                backgroundColor: '#3f3f3f',
+                color: '#d4d4d4',
+            }
+        }),
+        menu: (provided: any) => ({
+            ...provided,
+            backgroundColor: '#525252',
+        }),
+        multiValue: (provided: any) => ({
+            ...provided,
+            backgroundColor: '#3f3f3f',
+        }),
+        multiValueLabel: (provided: any) => ({
+            ...provided,
+            backgroundColor: '#363636',
+            color: '#d4d4d4',
+        }),
+        multiValueRemove: (provided: any) => ({
+            ...provided,
+            backgroundColor: '#363636',
+            color: '#d4d4d4',
+            ':hover': {
+                backgroundColor: '#525252',
+                color: '#a3a3a3',
+            }
+        }),
+        placeholder: (provided: any) => ({
+            ...provided,
+            color: '#a3a3a3',
+        }),
+        singleValue: (provided: any) => ({
+            ...provided,
+            color: '#d4d4d4',
+        }),
+        input: (provided: any) => ({
+            ...provided,
+            color: '#d4d4d4',
+        }),
+        indicatorSeparator: (provided: any) => ({
+            ...provided,
+            backgroundColor: '#404040',
+        }),
+    };
 
     return (
         <Modal
@@ -125,53 +195,67 @@ const UploadModal = () => {
             description={"Upload a mp3 file"}
             isOpen={uploadModal.isOpen}
             onChange={onChange}
-               >
+        >
             <form onSubmit={handleSubmit(onSubmit)}
                   className={"flex flex-col gap-y-4"}>
+                {/* title */}
+                <label htmlFor="title">Podcast title</label>
                 <Input
                     id={"title"}
                     disabled={isLoading}
-                    {...register("title", {required: true})}
+                    {...register("title", { required: true })}
                     placeholder={"Podcast title"}
                 />
+                {/* author */}
+                <label htmlFor="author">Podcast author</label>
                 <Input
                     id={"author"}
                     disabled={isLoading}
-                    {...register("author", {required: true})}
+                    {...register("author", { required: true })}
                     placeholder={"Podcast author"}
                 />
-                <Input
+                {/* Description */}
+                <label htmlFor="description">Description</label>
+                <DescriptionBox
                     id={"description"}
                     disabled={isLoading}
-                    {...register("description", {required: true})}
+                    {...register("description", { required: true })}
                     placeholder={"Description"}
                 />
+                {/* Podcast category */}
+                <label htmlFor="category">Select category</label>
+                <Select
+                    options={categories}
+                    isDisabled={isLoading}
+                    onChange={(option) => setValue('category', option)}
+                    isMulti
+                    styles={customStyles}
+                    placeholder="Select categories"
+                />
+                {/* Podcast file */}
                 <div>
-                    <div className={"pb-1"}>
-                        Select a podcast file
-                    </div>
+                    <label htmlFor="podcast">Select a podcast file</label>
                     <Input
                         id={"podcast"}
                         type={"file"}
                         disabled={isLoading}
                         accept={".mp3"}
-                        {...register("podcast", {required: true})}
+                        {...register("podcast", { required: true })}
                     />
                 </div>
+                {/* Podcast image file */}
                 <div>
-                    <div className={"pb-1"}>
-                        Select a podcast Image
-                    </div>
+                    <label htmlFor="image">Select a podcast Image</label>
                     <Input
                         id={"image"}
                         type={"file"}
                         disabled={isLoading}
                         accept={"image/*"}
-                        {...register("image", {required: true})}
+                        {...register("image", { required: true })}
                     />
                 </div>
                 <ReButton disabled={isLoading} type={"submit"}>
-                    Create
+                    {isLoading ? 'Uploading...' : 'Create'}
                 </ReButton>
             </form>
         </Modal>
