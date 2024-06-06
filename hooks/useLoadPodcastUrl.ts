@@ -9,7 +9,7 @@ const useLoadPodcastUrl = (podcast: Podcast | undefined) => {
     const { data: podcastData } = supabaseClient
         .storage
         .from('podcasts')
-        .getPublicUrl(podcast.url);
+        .getPublicUrl(podcast.name);
 
     return podcastData.publicUrl;
 }
