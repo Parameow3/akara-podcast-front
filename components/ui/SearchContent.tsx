@@ -35,7 +35,7 @@ const SearchContent: React.FC<SearchContentProps> = (
     return (
         <div className={"flex flex-col gap-y-2 w-full px-6"}>
             {podcasts.map((podcast) => (
-                <div key={podcast.id}
+                <div key={podcast.animeId}
                      className={"flex items-center gap-x-4 w-full"}>
                     <div className={"flex-1"} >
                         <MediaItem
@@ -43,7 +43,7 @@ const SearchContent: React.FC<SearchContentProps> = (
                          data={podcast}
                         />
                     </div>
-                    <FavButton podcastId={podcast.id}/>
+                    <FavButton podcastId={podcast.animeId}/>
                 </div>
             ))}
         </div>

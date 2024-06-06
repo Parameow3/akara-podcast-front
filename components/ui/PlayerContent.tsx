@@ -102,7 +102,7 @@ const PlayerContent: React.FC<PlayerContentProps> = (
             `}>
                 <div className={"flex items-center gap-x-4"}>
                     <MediaItem data={podcast} />
-                    <FavButton podcastId={podcast.id}/>
+                    <FavButton podcastId={podcast.animeId}/>
                 </div>
             </div>
 
