@@ -18,7 +18,7 @@ const MediaItem: React.FC<MediaItemProps> = (
 
     const handleClick = () => {
         if (onClick) {
-            return onClick(data.id);
+            return onClick(data.animeId);
         }
 
         // TODO: Default turn on player
@@ -52,8 +52,8 @@ const MediaItem: React.FC<MediaItemProps> = (
                 />
             </div>
             <div className={"flex flex-col gap-y-1 overflow-hidden"}>
-                <span className={"text-white truncate font-medium"}>{data.title}</span>
-                <span className={"text-neutral-400 truncate text-sm"}>{data.author}</span>
+                <span className={"text-white truncate font-medium"}>{data.name}</span>
+                <span className={"text-neutral-400 truncate text-sm"}>{data.producers}</span>
 
             </div>
         </div>
