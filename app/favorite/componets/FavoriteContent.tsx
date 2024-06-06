@@ -45,7 +45,7 @@ const FavoriteContent: React.FC<FavoriteContentProps> = (
                         >
                     <div className={"flex-1"}>
                         <MediaItem
-                            onClick={(id: string) => onPlay(id)}
+                            onClick={(animeId: string) => {}}
                             data={podcast}/>
                     </div>
                     <FavButton podcastId={podcast.animeId}/>
