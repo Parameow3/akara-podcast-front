@@ -40,7 +40,7 @@ const FavoriteContent: React.FC<FavoriteContentProps> = (
             {podcasts.map((podcast) => (
                 // eslint-disable-next-line react/jsx-key
                 <div
-                            key={podcast.id}
+                            key={podcast.animeId}
                             className={"flex items-center gap-x-4 w-full"}
                         >
                     <div className={"flex-1"}>
@@ -48,7 +48,7 @@ const FavoriteContent: React.FC<FavoriteContentProps> = (
                             onClick={(id: string) => onPlay(id)}
                             data={podcast}/>
                     </div>
-                    <FavButton podcastId={podcast.id}/>
+                    <FavButton podcastId={podcast.animeId}/>
                 </div>
             ))}
       </div>
