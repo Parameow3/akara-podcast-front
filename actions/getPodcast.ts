@@ -1,21 +1,36 @@
-import {Podcast} from "@/types/types";
-import {createServerComponentClient} from "@supabase/auth-helpers-nextjs";
-import {cookies} from "next/headers";
+import { Podcast } from "@/types/types";
 
 const getPodcast = async (): Promise<Podcast[]> => {
-    const supabase = createServerComponentClient({
-        cookies: cookies
-    });
+    try {
+        const response = await fetch('http://service.akarapodcast.com/api/podcasts?random=true&page=1&per_page=5');
 
-    const {data, error} = await supabase
-        .from('podcasts')
-        .select('*')
-        .order('created_at', {ascending: false});
-    if (error) {
-        console.error(error);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.map((item: any) => ({
+            aired: item.Aired,
+            duration: item.Duration,
+            episodes: item.Episodes,
+            favorites: item.Favorites,
+            genres: item.Genres,
+            japaneseName: item['Japanese name'],
+            name: item.Name,
+            popularity: item.Popularity,
+            producers: item.Producers,
+            ranked: item.Ranked,
+            rating: item.Rating,
+            score: item.Score,
+            source: item.Source,
+            studios: item.Studios,
+            type: item.Type,
+            animeId: item.anime_id,
+        })) as Podcast[];
+    } catch (error) {
+        console.error('Error fetching podcasts:', error);
+        return [];
     }
-
-    return (data as any) || [];
 }
 
 export default getPodcast;

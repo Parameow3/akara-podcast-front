@@ -1,13 +1,22 @@
 import Stripe from 'stripe';
 
 export interface Podcast {
-    id: string;
-    user_id: string;
-    author: string;
-    title: string;
-    description: string;
-    url: string;
-    img: string;
+    aired: string;
+    duration: string;
+    episodes: string;
+    favorites: number;
+    genres: string;
+    japaneseName: string;
+    name: string;
+    popularity: number;
+    producers: string;
+    ranked: string;
+    rating: string;
+    score: string;
+    source: string;
+    studios: string;
+    type: string;
+    animeId: string;
 }
 
 export interface UserDetails {

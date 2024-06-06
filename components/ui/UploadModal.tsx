@@ -232,28 +232,28 @@ const UploadModal = () => {
                     styles={customStyles}
                     placeholder="Select categories"
                 />
-                {/* Podcast file */}
-                <div>
-                    <label htmlFor="podcast">Select a podcast file</label>
-                    <Input
-                        id={"podcast"}
-                        type={"file"}
-                        disabled={isLoading}
-                        accept={".mp3"}
-                        {...register("podcast", { required: true })}
-                    />
-                </div>
-                {/* Podcast image file */}
-                <div>
-                    <label htmlFor="image">Select a podcast Image</label>
-                    <Input
-                        id={"image"}
-                        type={"file"}
-                        disabled={isLoading}
-                        accept={"image/*"}
-                        {...register("image", { required: true })}
-                    />
-                </div>
+                    {/* Podcast file */}
+                    <div>
+                        <label htmlFor="podcast">Select a podcast file</label>
+                        <Input
+                            id={"podcast"}
+                            type={"file"}
+                            disabled={isLoading}
+                            accept={".mp3"}
+                            {...register("podcast", { required: true })}
+                        />
+                    </div>
+                    {/* Podcast image file */}
+                    <div>
+                        <label htmlFor="image">Select a podcast Image</label>
+                        <Input
+                            id={"image"}
+                            type={"file"}
+                            disabled={isLoading}
+                            accept={"image/*"}
+                            {...register("image", { required: true })}
+                        />
+                    </div>
                 <ReButton disabled={isLoading} type={"submit"}>
                     {isLoading ? 'Uploading...' : 'Create'}
                 </ReButton>

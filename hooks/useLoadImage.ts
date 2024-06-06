@@ -11,7 +11,7 @@ const useLoadImage = (podcast: Podcast) => {
     const { data: imageData } = supabaseClient
         .storage
         .from("images")
-        .getPublicUrl(podcast.img);
+        .getPublicUrl(podcast.name);
 
     return imageData.publicUrl;
 }

@@ -13,7 +13,7 @@ const useOnPlay = (podcasts: Podcast[]) => {
             return authModal.onOpen();
         }
         player.setId(id);
-        player.setIds(podcasts.map(podcast => podcast.id));
+        player.setIds(podcasts.map(podcast => podcast.animeId));
     }
 
     return onPlay;
