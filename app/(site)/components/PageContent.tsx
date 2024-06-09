@@ -40,7 +40,7 @@ const PageContent: React.FC<PageContentProps> = (
           {podcasts.map((podcast) => (
               <PodcastItem
                 key={podcast.animeId}
-                onClick={(id: string) => {}}
+                onClick={(id: string) => onPlay(id)}
                 data={podcast}
               />
           ))}

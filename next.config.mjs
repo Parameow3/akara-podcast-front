@@ -9,7 +9,13 @@ const nextConfig = {
             {
                 protocol: "https",
                 hostname: 'ogarpvhacquxhraotptc.supabase.co'
-            }],
+            },
+            {
+                protocol: "https",
+                hostname: 'akara-resources.s3.ap-southeast-1.amazonaws.com'
+            }
+
+            ],
     },
 
 };

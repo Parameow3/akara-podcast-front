@@ -1,20 +1,33 @@
 "use client"
 
 import {Podcast} from "@/types/types";
-import useLoadImage from "@/hooks/useLoadImage";
 import Image from "next/image";
+import {useEffect, useState} from "react";
 
 interface MediaItemProps {
     data: Podcast
     onClick?: (id: string) => void;
 }
+
+const getRandomImageUrl = (width: number, height: number): string => {
+    return `https://picsum.photos/${width}/${height}?random=${Math.floor(Math.random() * 1000)}`;
+}
+
+
 const MediaItem: React.FC<MediaItemProps> = (
     {
     data,
     onClick
     }
 ) => {
-    const imageUrl = useLoadImage(data);
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+    useEffect(() => {
+        // Generate a random image URL only on the first load
+        if (!imageUrl) {
+            setImageUrl(getRandomImageUrl(200, 200));
+        }
+    }, [imageUrl]);
 
     const handleClick = () => {
         if (onClick) {
@@ -35,6 +48,7 @@ const MediaItem: React.FC<MediaItemProps> = (
                 hover:bg-neutral-800/50
                 w-full
                 p-2
+                ps-0
                 rounded-md
             `}>
             <div className={`

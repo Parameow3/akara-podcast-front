@@ -4,9 +4,10 @@ import {twMerge} from "tailwind-merge";
 
 interface SidebarItemProps {
     icon: IconType;
-  label: string;
-  active?: boolean;
-  href: string;
+    label: string;
+    active?: boolean;
+    href: string;
+    isCollapsed: boolean; // Add this prop
 }
 
 const SidebarItem: React.FC<SidebarItemProps> = (
@@ -14,12 +15,13 @@ const SidebarItem: React.FC<SidebarItemProps> = (
         icon: Icon,
         label,
         active,
-        href
+        href,
+        isCollapsed // Destructure the prop
     }) => {
-  return (
-    <Link
-    href={href}
-    className={twMerge(`
+    return (
+        <Link
+            href={href}
+            className={twMerge(`
         flex
         flex-row
         h-auto
@@ -34,10 +36,10 @@ const SidebarItem: React.FC<SidebarItemProps> = (
         text-neutral-400
         py-1
     `, active && "text-white")}>
-        <Icon size={26} />
-        <span className="truncate w-full">{label}</span>
-    </Link>
-  )
+            <Icon size={26} />
+            {!isCollapsed && <span className="truncate w-full">{label}</span>}
+        </Link>
+    )
 }
 
 export default SidebarItem;

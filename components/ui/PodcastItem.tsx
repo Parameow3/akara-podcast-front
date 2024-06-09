@@ -1,7 +1,6 @@
 "use client"
 
 import { Podcast } from "@/types/types";
-import useLoadImage from "@/hooks/useLoadImage";
 import Image from "next/image";
 import PlayButton from "@/components/ui/PlayButton";
 import {useEffect, useState} from "react";
@@ -32,7 +31,6 @@ const PodcastItem: React.FC<AnimeItemProps> = (
 
     return (
         <div
-            onClick={() => onClick(data.animeId)}
             className={`
                 relative
                 group

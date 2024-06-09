@@ -8,14 +8,17 @@ import useUploadModal from "@/hooks/useUploadModal";
 import {Podcast} from "@/types/types";
 import MediaItem from "@/components/ui/MediaItem";
 import useOnPlay from "@/hooks/useOnPlay";
+import {useEffect, useState} from "react";
 
 interface LibraryProps {
     podcasts: Podcast[];
+    isCollapsed: boolean; // Add this prop
 }
 
 const Library: React.FC<LibraryProps> = (
     {
-    podcasts
+        podcasts,
+        isCollapsed // Destructure the prop
     }
 ) => {
 
@@ -41,7 +44,7 @@ const Library: React.FC<LibraryProps> = (
             <div className={"flex items-center justify-between px-5 pt-4"}>
                 <div className={"inline-flex items-center gap-x-2"}>
                     <TbPlaylist className={"text-neutral-400"} size={26} />
-                    <span className={"text-neutral-400 font-medium text-md"}>Your Library</span>
+                    {!isCollapsed && <span className={"text-neutral-400 font-medium text-md"}>Your Library</span>}
                 </div>
                 <AiOutlinePlus
                     onClick={onClick}
